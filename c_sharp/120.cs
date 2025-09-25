@@ -12,7 +12,7 @@ public class Solution
             int prevValue = prev[1];
             for (int j = 1; j <= i + 1; j++)
             {
-                int temp = Math.Min(prevValue, prev[j]) + triangle[i][j-1];
+                int temp = Math.Min(prevValue, prev[j]) + triangle[i][j - 1];
                 prevValue = prev[j];
                 prev[j] = temp;
             }
@@ -32,17 +32,36 @@ public class Solution2
     public int MinimumTotal(IList<IList<int>> triangle)
     {
         int n = triangle.Count;
-        int[] result = new int[triangle[n-1].Count + 1];
+        int[] result = new int[triangle[n - 1].Count + 1];
 
-        for (int i = n-1; i >= 0; i--)
+        for (int i = n - 1; i >= 0; i--)
         {
             int len = triangle[i].Count;
             for (int j = 0; j < len; j++)
             {
-                result[j] = triangle[i][j] + Math.Min(result[j], result[j+1]);
+                result[j] = triangle[i][j] + Math.Min(result[j], result[j + 1]);
             }
         }
 
         return result[0];
+    }
+}
+
+public class Solution3
+{
+    public int MinimumTotal(IList<IList<int>> triangle)
+    {
+        int n = triangle.Count;
+
+        for (int i = n - 2; i >= 0; i--)
+        {
+            int len = triangle[i].Count;
+            for (int j = 0; j < len; j++)
+            {
+                triangle[i][j] += Math.Min(triangle[i + 1][j], triangle[i + 1][j + 1]);
+            }
+        }
+
+        return triangle[0][0];
     }
 }
