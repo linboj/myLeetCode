@@ -1,0 +1,12 @@
+public class Solution
+{
+    public int MinOperations(int[] nums, int k)
+    {
+        int sum = 0;
+        foreach (var num in nums)
+        {
+            sum += num;
+        }
+        return sum % k;
+    }
+}
