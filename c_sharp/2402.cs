@@ -49,3 +49,56 @@ public class Solution
         return ans;
     }
 }
+
+public class Solution2
+{
+    public int MostBooked(int n, int[][] meetings)
+    {
+        long[] roomAvailabilityTime = new long[n];
+        int[] cnts = new int[n];
+        Array.Sort(meetings, (a, b) => a[0] - b[0]);
+
+        foreach (var meeting in meetings)
+        {
+            int start = meeting[0], end = meeting[1];
+            long minAvailabiltyTime = long.MaxValue;
+            int minAvailableTimeRoom = 0;
+            bool found = false;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (roomAvailabilityTime[i] <= start)
+                {
+                    cnts[i]++;
+                    roomAvailabilityTime[i] = end;
+                    found = true;
+                    break;
+                }
+
+                if (minAvailabiltyTime > roomAvailabilityTime[i])
+                {
+                    minAvailabiltyTime = roomAvailabilityTime[i];
+                    minAvailableTimeRoom = i;
+                }
+            }
+
+            if (!found)
+            {
+                roomAvailabilityTime[minAvailableTimeRoom] += end - start;
+                cnts[minAvailableTimeRoom]++;
+            }
+        }
+
+        int ans = 0;
+        int maxCnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (cnts[i] > maxCnt)
+            {
+                ans = i;
+                maxCnt = cnts[i];
+            }
+        }
+        return ans;
+    }
+}
